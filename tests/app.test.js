@@ -13,7 +13,7 @@ const testAnswers = {
     school: "UCONN",
     officeNumber: "12",
     gitName: "firefreet",
-    anotherPerson: "No"
+    anotherPerson: false
 
 }
 
