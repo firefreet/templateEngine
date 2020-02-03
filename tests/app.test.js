@@ -35,3 +35,11 @@ test("When passed the Engineer role, is a Engineer object created with the git u
     expect(newPerson instanceof Engineer).toBe(true)
     expect(newPerson.getGithub()).toEqual(testAnswers.gitName)
 })
+
+test("When calling create Person, the new object is added to the personArray",() =>{
+    testAnswers.role = "Engineer"
+    app.createPerson(testAnswers)
+    var index = app.personArray.length -1
+    expect(app.personArray[index] !== null).toBe(true)
+    expect(app.personArray[index] instanceof Engineer).toBe(true)
+})

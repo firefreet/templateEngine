@@ -6,6 +6,7 @@ const Intern = require('./lib/Intern')
 const Manager = require('./lib/Manager')
 const questions = require('./lib/questions')
 const inquirer = require('inquirer')
+const personArray = []
 
 function createPerson(answers) {
     const {name,email,id,role,school,officeNumber, gitName} = answers
@@ -18,8 +19,9 @@ function createPerson(answers) {
         case 'Engineer': newPerson =  new Engineer(name,id,email,gitName)
         break;
     }
-    return newPerson
-    
+    personArray.push(newPerson)
+
+    return newPerson  
 }
 function getInfo() {
     inquirer
@@ -27,4 +29,4 @@ function getInfo() {
         .then(createPerson)
 }
 getInfo()
-module.exports = {createPerson}
+module.exports = {createPerson, personArray}
