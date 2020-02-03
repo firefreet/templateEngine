@@ -45,7 +45,7 @@ function modifyDOM(result) {
     containerElTemplate.children(".columns").empty()
     var columnEl = containerEl.find(".column-slot")
     personArray.forEach((person, index) => {
-        const { name, id, email, school, officeNumber, github, role } = person
+        const { name, id, email, school, officeNumber, github, title } = person
         var other
         if (school) { other = `School: ${school}` }
         else if (officeNumber) { other = `Office#: ${officeNumber}` }
@@ -58,11 +58,20 @@ function modifyDOM(result) {
             containerEl = containerElTemplate.clone()
             $(".section-slot").append(containerEl)
         }
+        var icon
+        switch(title) {
+            case "Manager": icon = `<i class="fab fa-galactic-senate fa-3x has-text-primary"></i>`
+            break
+            case "Engineer": icon = `<i class="fas fa-jedi fa-3x has-text-success"></i>`
+            break
+            case "Intern": icon = `<i class="fab fa-galactic-republic fa-3x has-text-info"></i>`
+        }
+        columnEl.find("figure").html(icon)
         columnEl.find(".name-slot").text(name)
         columnEl.find(".email-slot").text(email)
         columnEl.find(".id-slot").text(`ID#:${id}`)
         columnEl.find(".other-slot").text(other)
-        columnEl.find(".role-slot").text(role)
+        columnEl.find(".role-slot").text(title)
         if(index >0 ) {
             containerEl.children(".columns").append(columnEl)
         }
