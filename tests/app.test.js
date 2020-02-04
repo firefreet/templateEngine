@@ -57,3 +57,4 @@ test("readFilePromise returns a string", async () => {
     var result = await app.readFilePromise("./assets/template.html","utf8")
     expect(typeof result).toBe("string")
 })
+
