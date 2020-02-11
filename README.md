@@ -1,4 +1,4 @@
-# templateEngine
+# Template Engine
 
 Command line application for creating a web page on the fly that displays basic information about a software development team. Includes high level information about each member such as Name, Email Address, Employee ID, Role, and Role specific info.
 
