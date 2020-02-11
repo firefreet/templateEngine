@@ -85,20 +85,20 @@ function modifyDOM(result) {
     // remove all content from template 2 levels down
     containerElTemplate.children(".columns").empty()
     // grab the current column to be updatedd
-    var columnEl = containerEl.find(".column-slot")
+    var columnElTemplate = containerEl.find(".column-slot")
     // loop through personArray
     personArray.forEach((person, index) => {
         // deconstruct each person object
         const { name, id, email, school, officeNumber, github, title } = person
         // define text to display which is unique to each Class type, based on if the properties exist on this Employee
         var other
-        if (school) { other = `School: ${school}` }
-        else if (officeNumber) { other = `Office#: ${officeNumber}` }
+        if (school !== undefined) { other = `School: ${school}` }
+        else if (officeNumber !== undefined) { other = `Office#: ${officeNumber}` }
         else { other = `Github Profile: ${github}` }
         // after the first person, start cloning the column, instead of overwriting
         if (index > 0) {
-            columnEl = columnEl.clone()
-        }
+            columnEl = columnElTemplate.clone()
+        } else {columnEl = columnElTemplate}
         // starting at the 4th person and every 3 after, 
         if (index % 3 === 0 && index > 0) {
             // create a new container from the template
@@ -121,7 +121,7 @@ function modifyDOM(result) {
         columnEl.find(".email-slot").text(email).attr("href", `mailto:${email}`)
         columnEl.find(".id-slot").text(`ID#:${id}`)
         columnEl.find(".other-slot").text(other)
-        if (school) { columnEl.find(".other-slot").attr("href", "https://github.com/" + github) }
+        if (github !== undefined) { columnEl.find(".other-slot").attr("href", "https://github.com/" + github) }
         columnEl.find(".role-slot").text(title)
         // if it is a new column, append it to the current .container-slot>.columns element
         if (index > 0) {
