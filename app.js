@@ -9,7 +9,10 @@ const Engineer = require('./lib/Engineer')
 const Intern = require('./lib/Intern')
 const Manager = require('./lib/Manager')
 // question file for input to inquirer prompt
-const questions = require('./lib/questions')
+const {questions1} = require('./lib/questions')
+const {questions2} = require('./lib/questions')
+// start off with 1st question set
+var questions = questions1
 // module to interact with user at the command line
 const inquirer = require('inquirer')
 // array for list of people created from prompt
@@ -31,7 +34,9 @@ function createDOM(fileString) {
 // creates a new Employee based on answers to prompt. Called when the prompt completes.
 function createPerson(answers) {
     // deconstruct the answers object
-    const { name, email, id, role, school, officeNumber, gitName, anotherPerson } = answers
+    var { name, email, id, role, school, officeNumber, gitName, anotherPerson } = answers
+    // if role doesn't exist, it is the first run, set it to manager
+    if(role ===undefined){role = "Manager"}
     // depending on the type of person, creates appropriate Employee 
     var newPerson
     switch (role) {
@@ -46,6 +51,8 @@ function createPerson(answers) {
     personArray.push(newPerson)
     // if user decided to add another person...
     if (anotherPerson) {
+        // switch to 2nd question set after first time
+        questions = questions2
         // restart with the prompt 
         runApp()
         return anotherPerson
