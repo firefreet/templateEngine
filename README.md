@@ -18,10 +18,13 @@ Requires the following modules be installed
 *   fs - for reading and writing files
 *   open - which helps to open a file in the default application as defined by the OS
 *   inquirer - to get information from the user at the command line
----- also used in production ...
+
+ ### Also used in production
+
 *   jest - for test cases
 *   bulma - CSS framework using sass
 *   node-sass - used to compile sass
 
+## Example of application output
 ![screenshot](./output/screenshot.png)
 
