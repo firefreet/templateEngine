@@ -118,9 +118,10 @@ function modifyDOM(result) {
         // set all the user information to respective elements
         columnEl.find("figure").html(icon)
         columnEl.find(".name-slot").text(name)
-        columnEl.find(".email-slot").text(email).attr("href",`mailto:${email}`)
+        columnEl.find(".email-slot").text(email).attr("href", `mailto:${email}`)
         columnEl.find(".id-slot").text(`ID#:${id}`)
         columnEl.find(".other-slot").text(other)
+        if (school) { columnEl.find(".other-slot").attr("href", "https://github.com/" + github) }
         columnEl.find(".role-slot").text(title)
         // if it is a new column, append it to the current .container-slot>.columns element
         if (index > 0) {
