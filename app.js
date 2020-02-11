@@ -118,7 +118,7 @@ function modifyDOM(result) {
         // set all the user information to respective elements
         columnEl.find("figure").html(icon)
         columnEl.find(".name-slot").text(name)
-        columnEl.find(".email-slot").text(email)
+        columnEl.find(".email-slot").text(email).attr("href",`mailto:${email}`)
         columnEl.find(".id-slot").text(`ID#:${id}`)
         columnEl.find(".other-slot").text(other)
         columnEl.find(".role-slot").text(title)
