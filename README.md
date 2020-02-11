@@ -23,5 +23,5 @@ Requires the following modules be installed
 *   bulma - CSS framework using sass
 *   node-sass - used to compile sass
 
-[screenshot](./output/screenshot.png)
+![screenshot](./output/screenshot.png)
 
