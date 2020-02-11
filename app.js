@@ -121,7 +121,12 @@ function modifyDOM(result) {
         columnEl.find(".email-slot").text(email).attr("href", `mailto:${email}`)
         columnEl.find(".id-slot").text(`ID#:${id}`)
         columnEl.find(".other-slot").text(other)
-        if (github !== undefined) { columnEl.find(".other-slot").attr("href", "https://github.com/" + github) }
+        if (github !== undefined) { 
+            columnEl
+            .find(".other-slot")
+            .attr("href", "https://github.com/" + github)
+            .addClass("has-text-link")
+        }
         columnEl.find(".role-slot").text(title)
         // if it is a new column, append it to the current .container-slot>.columns element
         if (index > 0) {
