@@ -9,20 +9,31 @@ const Engineer = require('./lib/Engineer')
 const Intern = require('./lib/Intern')
 const Manager = require('./lib/Manager')
 // question file for input to inquirer prompt
-const {questions1} = require('./lib/questions')
-const {questions2} = require('./lib/questions')
+const { questions1 } = require('./lib/questions')
+const { questions2 } = require('./lib/questions')
 // start off with 1st question set
 var questions = questions1
+// opens apps in default applications
+const open = require('open');
 // module to interact with user at the command line
+var openOnRun = false
 const inquirer = require('inquirer')
 // array for list of people created from prompt
 const personArray = []
 // promisify readFile
 const readFilePromise = promisify(fs.readFile)
+// location for HTML file to be created
+const outPutFileName = "./output/index.html"
 // placeholder variables
 var dom
 var $ = null;
 var htmlString
+
+// to be used as cb function after HTML is written
+function openFile() {
+    if (openOnRun) { open(outPutFileName, { wait: false }) };
+}
+
 // create the imaginary DOM and set up jquery. To be called after the template file is read
 function createDOM(fileString) {
     // create a Document Object Model type object
@@ -31,12 +42,16 @@ function createDOM(fileString) {
     $ = require("jquery")(dom.window);
     return [dom, $]
 }
+
 // creates a new Employee based on answers to prompt. Called when the prompt completes.
 function createPerson(answers) {
     // deconstruct the answers object
-    var { name, email, id, role, school, officeNumber, gitName, anotherPerson } = answers
+    var { name, email, id, role, school, officeNumber, gitName, anotherPerson, openFile } = answers
+    // set flag to open or not the html result based on user's choice
+    if (openFile === true) { openOnRun = true }
+    else { openOnRun = false }
     // if role doesn't exist, it is the first run, set it to manager
-    if(role ===undefined){role = "Manager"}
+    if (role === undefined) { role = "Manager" }
     // depending on the type of person, creates appropriate Employee 
     var newPerson
     switch (role) {
@@ -93,11 +108,11 @@ function modifyDOM(result) {
         }
         // chose an icon based on the role/title
         var icon
-        switch(title) {
+        switch (title) {
             case "Manager": icon = `<i class="fab fa-galactic-senate fa-3x has-text-primary"></i>`
-            break
+                break
             case "Engineer": icon = `<i class="fas fa-jedi fa-3x has-text-success"></i>`
-            break
+                break
             case "Intern": icon = `<i class="fab fa-galactic-republic fa-3x has-text-info"></i>`
         }
         // set all the user information to respective elements
@@ -108,7 +123,7 @@ function modifyDOM(result) {
         columnEl.find(".other-slot").text(other)
         columnEl.find(".role-slot").text(title)
         // if it is a new column, append it to the current .container-slot>.columns element
-        if(index >0 ) {
+        if (index > 0) {
             containerEl.children(".columns").append(columnEl)
         }
 
@@ -117,32 +132,33 @@ function modifyDOM(result) {
     // get the resulting HTML 
     htmlString = dom.window.document.documentElement.outerHTML
     // write it back out to a file
-    fs.writeFile("./output/index.html", htmlString, function (err) {
-        // if it failed to write
-        if (err) {
-            // display error
-            console.log(err);
-        } 
-        // otherwise state Success
-        else { console.log("Write HTML Success"); }
-    })
+    try {
+        fs.writeFileSync(outPutFileName, htmlString)
+    }
+    catch (err) {
+        console.log(err)
+    }
+    console.log("Write HTML Success")
 }
 
 
 // primary app functions
 async function runApp() {
     inquirer
-    // prompt for employee information
+        // prompt for employee information
         .prompt(questions)
         // create appropriate emmployee objects loop back to prompt based on user's choice
         .then(createPerson)
         // if no more employees to enter, create webpage from template
         .then(modifyDOM)
+        // if user chose to open the end file, open the file
+        .then(openFile)
+
 }
 // read template file
 async function readFile() {
     return await readFilePromise("./assets/template.html", "utf8")
-    // use file string data to create a DOM browser like object
+        // use file string data to create a DOM browser like object
         .then(createDOM)
 
 }
